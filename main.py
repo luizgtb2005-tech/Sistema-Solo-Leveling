@@ -1,6 +1,8 @@
 class Player:
     def __init__(self,name):
         self.name = name
+        self.max_hp = 100
+        self.hp = self.max_hp
         self.level = 1
         self.xp = 0
         self.xp_to_level = 100
@@ -20,6 +22,9 @@ class Player:
         print(f"Agilidade: {self.agility}")
         print(f"Inteligencia: {self.intelligence}")
         print("--------------------------")
+
+    def attack(self):
+        return self.strength * 2
 
     def gain_xp(self, amount):
         print(f"\nGanhou {amount} de XP")
@@ -45,13 +50,13 @@ class Player:
             print("2 - Agilidade")
             print("3 - Inteligência")
 
-            choise = input("Digite o número:")
+            choice = input("Digite o número:")
 
-            if choise == "1":
+            if choice == "1":
                 self.strength += 1
-            elif choise == "2":
+            elif choice == "2":
                 self.agility += 1
-            elif choise == "3":
+            elif choice == "3":
                 self.intelligence += 1
             else:
                 print("Escolha inválida")
@@ -69,11 +74,41 @@ class Quest:
         print(f"\nMissão concluída: {self.name}")
         player.gain_xp(self.reward_xp)
 
+class Enemy:
+    def __init__(self, name, hp, attack):
+        self.name = name
+        self.hp = hp
+        self.attack = attack
+
+    def is_alive(self):
+        return self.hp > 0
+
+    
+def battle(player, enemy):
+    print(f"\n⚔️ Combate iniciado contra {enemy.name}")
+
+    while player.hp > 0 and enemy.hp > 0:
+        damage = player.attack()
+        enemy.hp -= damage
+        print(f"Você causou {damage} de dano no {enemy.name}")
+
+        if not enemy.is_alive():
+            print(f"{enemy.name} foi derrotado!")
+            return True
+        
+        player.hp -= enemy.attack
+        print(f"{enemy.name} causou {enemy.attack} de dano em você")
+
+    print("Você foi derrotado...")
+    return False
+
+
 # ===========================
 # INÍCIO DO SISTEMA
 # ===========================
 
 player = Player("Caçador")
+enemy = Enemy("Goblin", 50, 8)
 
 quest_1 = Quest("Derrotar monstros fracos", 50)
 quest_2 = Quest("Limpar dungeon inicial", 120)
@@ -82,13 +117,15 @@ print("Sistema Solo Leveling iniciado")
 player.status()
 
 print("\nEscolha uma missão:")
-print("1 - Derrotar monstros fracos:")
+print("1 - Derrotar goblin:")
 print("2 - Limpar dungeon inicial:")
 
 choice = input("Digite o número da missão:")
 
 if choice == "1":
-    quest_1.complete(player)
+    if battle(player, enemy):
+        print("Vitória! Você ganhou 50 XP")
+        player.gain_xp(50)
 elif choice == "2":
     quest_2.complete(player)
 else:
