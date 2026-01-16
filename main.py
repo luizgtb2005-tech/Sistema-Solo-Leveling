@@ -4,6 +4,7 @@ class Player:
         self.level = 1
         self.xp = 0
         self.xp_to_level = 100
+        self.points = 0
 
         self.strength = 10
         self.agility = 10
@@ -14,6 +15,7 @@ class Player:
         print(f"Nome: {self.name}")
         print(f"Nivel: {self.level}")
         print(f"XP:{self.xp}/{self.xp_to_level}")
+        print(f"Pontos livres: {self.points}")
         print(f"Força: {self.strength}")
         print(f"Agilidade: {self.agility}")
         print(f"Inteligencia: {self.intelligence}")
@@ -26,20 +28,37 @@ class Player:
         while self.xp >= self.xp_to_level:
             self.level_up()
 
-        if self.xp >= self.xp_to_level:
-            self.level_up()
-
     def level_up(self):
         self.level += 1
         self.xp -= self.xp_to_level
         self.xp_to_level += 50
-
-        self.strength += 2
-        self.agility += 2
-        self.intelligence += 2
+        self.points += 3
 
         print("\n🔥 LEVEL UP!")
         print(f"Agora você é nível {self.level}")
+        print("Você ganhou 3 pontos de atributo")
+
+    def distribute_points(self):
+        while self.points > 0:
+            print("\nEscolha um atributo para aumentar:")
+            print("1 - Força")
+            print("2 - Agilidade")
+            print("3 - Inteligência")
+
+            choise = input("Digite o número:")
+
+            if choise == "1":
+                self.strength += 1
+            elif choise == "2":
+                self.agility += 1
+            elif choise == "3":
+                self.intelligence += 1
+            else:
+                print("Escolha inválida")
+                continue
+
+            self.points -= 1
+            print("Ponto distribuído!")
 
 class Quest:
     def __init__(self, name, reward_xp):
@@ -75,4 +94,5 @@ elif choice == "2":
 else:
     print("\nEscolha invalida. Nenhuma missão realizada.")
 
+player.distribute_points()
 player.status()
