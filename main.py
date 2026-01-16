@@ -87,20 +87,54 @@ class Enemy:
 def battle(player, enemy):
     print(f"\n⚔️ Combate iniciado contra {enemy.name}")
 
+    defending = False
+
     while player.hp > 0 and enemy.hp > 0:
-        damage = player.attack()
-        enemy.hp -= damage
-        print(f"Você causou {damage} de dano no {enemy.name}")
+        print("\n--- SEU TURNO ---")
+        print("1 - Atacar")
+        print("2 - Defender")
+        print("3 - Fugir")
+
+        choice = input("Escolha sua ação: ")
+
+        if choice == "1":
+            damage = player.attack()
+            enemy.hp -= damage
+            print(f"Você atacou e causou {damage} de dano no {enemy.name}")
+
+        elif choice == "2":
+                defending = True
+                print("Você entrou em posição defensiva")
+            
+        elif choice =="3":
+                print("Você fugiu do combate!")
+                return False
+        
+        else:
+            print("Ação inválida Você perdeu o turno!")
 
         if not enemy.is_alive():
-            print(f"{enemy.name} foi derrotado!")
+            print(f"\🏆{enemy.name} foi derrotado!")
             return True
         
-        player.hp -= enemy.attack
-        print(f"{enemy.name} causou {enemy.attack} de dano em você")
+        print("\n--- TURNO DO INIMIGO ---")
+        enemy_damage = enemy.attack
 
-    print("Você foi derrotado...")
+        if defending:
+            enemy_damage //= 2
+            print("Defesa ativada! Dano reduzido.")
+
+        player.hp -= enemy_damage
+        print(f"{enemy.name} causou {enemy_damage} de dano em você")
+    
+        defending = False
+
+        print(f"Seu HP: {player.hp}/{player.max_hp}")
+        print(f"HP do {enemy.name}: {enemy.hp}")
+
+    print("\n💀 Você foi derrotado...")
     return False
+
 
 
 # ===========================
