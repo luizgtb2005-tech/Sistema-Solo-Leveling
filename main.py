@@ -7,6 +7,7 @@ class Player:
         self.xp = 0
         self.xp_to_level = 100
         self.points = 0
+        self.inventory = []
 
         self.strength = 10
         self.agility = 10
@@ -64,6 +65,38 @@ class Player:
 
             self.points -= 1
             print("Ponto distribuído!")
+
+    def use_item(self):
+        if not self.inventory:
+            print("Seu inventario esta vazio!")
+            return
+
+        print("\nInventario: ")
+        for i, item in enumerate(self.inventory):
+            print(f"{i+1} - item")
+
+        choice = input("Escolha um item para usar ou 0 para cancelar:")
+
+        if choice == 0:
+            return
+        
+        index = int(choice) - 1
+        item = self.inventory[index]
+
+        if item == "Poção de vida":
+            self.hp = min(self.max_hp, self.hp + 30)
+            print("Você recuperou 30 de HP!")
+
+        elif item == "Pergaminho de força":
+            self.strength += 2
+            print("Força aumentada em 2!")
+
+        elif item == "Pergaminho de inteligencia":
+            self.intelligence += 2
+            print("Inteligencia aumentada em 2!")
+
+        self.inventory.pop(index)
+
 
 class Quest:
     def __init__(self, name, reward_xp):
