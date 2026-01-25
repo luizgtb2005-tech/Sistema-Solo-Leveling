@@ -1,0 +1,37 @@
+{
+    "player": {
+        "name": "Luiz",
+        "max_hp": 100,
+        "hp": 79,
+        "level": 1,
+        "xp": 0,
+        "xp_to_level": 100,
+        "points": 0,
+        "inventory": [
+            "força",
+            "inteligencia",
+            "poção"
+        ],
+        "strength": 10,
+        "agility": 10,
+        "intelligence": 10
+    },
+    "dungeon": {
+        "name": "Dungeon inical",
+        "has_chest": false,
+        "chest_items": [],
+        "enemies": [
+            {
+                "name": "Goblin",
+                "hp": -10,
+                "attack": 8
+            },
+            {
+                "name": "Slime",
+                "hp": -10,
+                "attack": 5
+            }
+        ]
+    },
+    "game_state": "cidade"
+}
